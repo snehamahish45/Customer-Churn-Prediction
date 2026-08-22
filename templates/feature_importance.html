@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Feature Importance | Customer Churn Prediction</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+        }
+
+        .container {
+            width: 86%;
+            max-width: 1400px;
+            margin: 45px auto;
+        }
+
+        .header {
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin: 0 0 8px;
+            color: #20242a;
+        }
+
+        .header h1 span {
+            color: #1268f3;
+        }
+
+        .subtitle {
+            font-size: 19px;
+            color: #64748b;
+        }
+
+        .info-box {
+            margin-top: 30px;
+            padding: 28px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+        }
+
+        .info-box h2 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        .info-box p {
+            color: #64748b;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            padding: 25px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 21px;
+        }
+
+        .card p {
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .section {
+            margin-top: 35px;
+            padding: 30px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        .shap-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .shap-container img {
+            max-width: 100%;
+            width: 950px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .risk-item {
+            padding: 15px 20px;
+            margin: 12px 0;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #f8fafc;
+            font-size: 17px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 13px 24px;
+            background: #1268f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #0958d9;
+        }
+
+        @media (max-width: 900px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 92%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>
+            📊 <span>Feature Importance</span>
+        </h1>
+
+        <div class="subtitle">
+            Model explainability and customer churn risk factors
+        </div>
+    </div>
+
+
+    <!-- ABOUT -->
+    <div class="info-box">
+
+        <h2>ⓘ About Feature Importance</h2>
+
+        <p>
+            These visualizations show which customer attributes
+            have the greatest influence on the churn prediction model.
+        </p>
+
+    </div>
+
+
+    <!-- THREE CARDS -->
+    <div class="cards">
+
+        <div class="card">
+            <h3>📈 Model Explainability</h3>
+
+            <p>
+                Understand why the model makes its predictions.
+            </p>
+        </div>
+
+
+        <div class="card">
+            <h3>⚠️ Risk Factors</h3>
+
+            <p>
+                Identify customer attributes associated with churn.
+            </p>
+        </div>
+
+
+        <div class="card">
+            <h3>💡 Retention Strategy</h3>
+
+            <p>
+                Use important features to guide retention actions.
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- SHAP -->
+    <div class="section">
+
+        <h2>📊 SHAP Summary Plot</h2>
+
+        <p>
+            SHAP values show how individual features influence
+            the model's churn predictions.
+        </p>
+
+        <div class="shap-container">
+
+            <img
+                src="{{ url_for('static', filename='images/shap_summary.png') }}"
+                alt="SHAP Feature Importance"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- TOP RISK FACTORS -->
+    <div class="section">
+
+        <h2>⚠️ Top Risk Factors</h2>
+
+        {% if top_features %}
+
+            {% for item in top_features %}
+
+                <div class="risk-item">
+                    ✓ {{ item }}
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="risk-item">
+                No feature importance data available.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- BACK -->
+    <a href="{{ url_for('home') }}" class="back-button">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

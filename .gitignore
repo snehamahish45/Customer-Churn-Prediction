@@ -1,0 +1,103 @@
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ==============================
+# Virtual Environment
+# ==============================
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ==============================
+# Flask
+# ==============================
+instance/
+.webassets-cache/
+
+# ==============================
+# Environment Variables / Secrets
+# ==============================
+.env
+.env.*
+!.env.example
+
+# ==============================
+# Jupyter Notebook
+# ==============================
+.ipynb_checkpoints/
+
+# ==============================
+# IDE / Editor
+# ==============================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ==============================
+# OS Files
+# ==============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==============================
+# Logs
+# ==============================
+*.log
+
+# ==============================
+# Temporary Files
+# ==============================
+*.tmp
+*.temp
+
+# ==============================
+# Model / ML Temporary Files
+# ==============================
+*.joblib
+*.pkl
+*.pickle
+
+# ==============================
+# Dataset
+# ==============================
+# Ignore local datasets if they are large/private
+# Uncomment these if you don't want datasets on GitHub:
+# data/*.csv
+# data/*.xlsx
+
+# ==============================
+# Prediction History
+# ==============================
+data/history.csv
+
+# ==============================
+# Generated Images
+# ==============================
+static/images/shap_summary.png
+
+# ==============================
+# Python Cache
+# ==============================
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ==============================
+# Build / Distribution
+# ==============================
+build/
+dist/
+*.egg-info/
+.eggs/

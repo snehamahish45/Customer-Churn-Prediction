@@ -1,0 +1,2482 @@
+<!DOCTYPE html>
+
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport"
+
+             content="width=device-width, initial-scale=1.0">
+
+       <title>
+
+           Customer Churn Prediction | AI Analytics
+
+       </title>
+       <!-- Bootstrap -->
+
+       <link
+
+           href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+
+           rel="stylesheet">
+
+       <!-- Bootstrap Icons -->
+
+       <link
+
+           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+
+           rel="stylesheet">
+
+       <!-- Custom CSS -->
+
+       <link
+
+           rel="stylesheet"
+
+           href="{{ url_for('static', filename='style.css') }}">
+
+   </head>
+
+   <body>
+   <div class="dashboard-wrapper">
+       <div class="container-fluid dashboard-container">
+       <!-- =====================================================
+            HERO
+       ====================================================== -->
+       <section class="hero-section">
+           <div class="hero-background-shape shape-one"></div>
+           <div class="hero-background-shape shape-two"></div>
+           <div class="hero-content">
+               <div class="hero-icon">
+
+                   <i class="bi bi-graph-up-arrow"></i>
+
+               </div>
+               <div class="hero-text">
+                   <h1>Customer Churn Prediction</h1>
+                   <p>
+
+                       AI-Powered Customer Retention & Risk Analytics System
+
+                   </p>
+
+               </div>
+           </div>
+
+           <div class="hero-badges">
+
+               <span>
+
+                   <i class="bi bi-robot"></i>
+
+                   AI Predictions
+
+               </span>
+
+               <span>
+
+                   <i class="bi bi-bar-chart-fill"></i>
+
+                   Risk Analytics
+
+               </span>
+
+               <span>
+
+                   <i class="bi bi-lightbulb-fill"></i>
+
+                   Retention Recommendations
+
+               </span>
+
+               <span>
+
+                   <i class="bi bi-diagram-3-fill"></i>
+
+                   Model Explainability
+
+               </span>
+
+           </div>
+
+       </section>
+
+       <!-- =====================================================
+            ERROR MESSAGE
+       ====================================================== -->
+       {% if error %}
+       <div class="alert alert-danger alert-dismissible fade show mt-4"
+
+            role="alert">
+           <i class="bi bi-exclamation-triangle-fill me-2"></i>
+           <strong>Prediction Error:</strong>
+           {{ error }}
+           <button
+
+               type="button"
+
+               class="btn-close"
+
+               data-bs-dismiss="alert"
+
+               aria-label="Close">
+
+           </button>
+       </div>
+       {% endif %}
+       <!-- =====================================================
+            PROJECT OVERVIEW
+       ====================================================== -->
+       <section class="dashboard-card overview-card mt-4">
+           <div class="section-heading">
+               <div class="section-heading-icon">
+
+                   <i class="bi bi-speedometer2"></i>
+
+               </div>
+               <div>
+
+                   <h2>Project Overview</h2>
+
+                   <p>Dataset statistics and business risk summary</p>
+
+               </div>
+           </div>
+
+           <!-- =================================================
+
+               DATASET OVERVIEW
+
+           ================================================== -->
+           <div class="sub-card dataset-overview">
+               <div class="sub-title">
+
+                   <div class="sub-title-left">
+
+                       <span class="sub-title-icon">
+
+                           <i class="bi bi-bar-chart-fill"></i>
+
+                       </span>
+                       <div>
+
+                           <h3>Dataset Overview</h3>
+
+                           <p>Key statistics from the customer dataset</p>
+
+                       </div>
+
+                   </div>
+
+               </div>
+
+               <!-- =============================================
+
+                   MAIN KPI CARDS
+
+               ============================================== -->
+
+               <div class="row g-3 kpi-row">
+
+                   <!-- TOTAL CUSTOMERS -->
+                   <div class="col-xl-3 col-md-6">
+                       <div class="kpi-card kpi-blue">
+                           <div class="kpi-top">
+                               <div class="kpi-icon">
+
+                                   <i class="bi bi-people-fill"></i>
+
+                               </div>
+
+                               <span class="kpi-label">
+
+                                   CUSTOMERS
+
+                               </span>
+
+                           </div>
+
+                           <div class="kpi-value">
+
+                               {{ total }}
+
+                           </div>
+
+                           <div class="kpi-description">
+
+                               Total Customers
+
+                           </div>
+
+                           <div class="kpi-footer">
+
+                               <i class="bi bi-database"></i>
+
+                               Dataset records
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+                   <!-- CHURNED CUSTOMERS -->
+
+                   <div class="col-xl-3 col-md-6">
+                       <div class="kpi-card kpi-red">
+                           <div class="kpi-top">
+                               <div class="kpi-icon">
+
+                                   <i class="bi bi-person-x-fill"></i>
+
+                               </div>
+
+                               <span class="kpi-label">
+
+                                   CHURN
+
+                               </span>
+
+                           </div>
+
+                           <div class="kpi-value">
+
+                               {{ churn }}
+
+                           </div>
+
+                           <div class="kpi-description">
+
+                               Churned Customers
+
+                           </div>
+
+                           <div class="kpi-footer">
+
+                               <i class="bi bi-arrow-up-right"></i>
+
+                               Requires attention
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+                   <!-- MONTHLY CHARGES -->
+
+                   <div class="col-xl-3 col-md-6">
+
+                       <div class="kpi-card kpi-green">
+
+                           <div class="kpi-top">
+
+                               <div class="kpi-icon">
+
+                                   <i class="bi bi-cash-stack"></i>
+
+                               </div>
+
+                               <span class="kpi-label">
+
+                                   REVENUE
+
+                               </span>
+
+                           </div>
+
+                           <div class="kpi-value">
+
+                               {{ total_monthly_revenue or "N/A" }}
+
+                           </div>
+
+                           <div class="kpi-description">
+
+                               Total Monthly Charges
+
+                           </div>
+
+                           <div class="kpi-footer">
+
+                               <i class="bi bi-currency-dollar"></i>
+
+                               Monthly customer value
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+                   <!-- INPUT FEATURES -->
+
+                   <div class="col-xl-3 col-md-6">
+
+                       <div class="kpi-card kpi-purple">
+
+                           <div class="kpi-top">
+
+
+                               <div class="kpi-icon">
+
+                                   <i class="bi bi-bar-chart-fill"></i>
+
+                               </div>
+
+                               <span class="kpi-label">
+
+                                   FEATURES
+
+                               </span>
+
+                           </div>
+
+                           <div class="kpi-value">
+
+                               {{ input_features }}
+
+                           </div>
+
+                           <div class="kpi-description">
+
+                               Input Features
+
+                           </div>
+
+                           <div class="kpi-footer">
+
+                               <i class="bi bi-cpu"></i>
+
+                               ML model inputs
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+               </div>
+
+               <!-- =============================================
+
+                   CUSTOMER DISTRIBUTION
+
+               ============================================== -->
+
+               <div class="customer-distribution">
+
+                   <div class="distribution-heading">
+
+                       <div>
+
+                           <h4>Customer Distribution</h4>
+
+                           <span>Current dataset composition</span>
+
+                       </div>
+
+                       <div class="distribution-total">
+
+                           {{ total }} Customers
+
+                       </div>
+
+                   </div>
+
+                   <div class="distribution-grid">
+
+                       <!-- STAYED -->
+
+                       <div class="distribution-box stayed">
+
+                           <div class="distribution-icon">
+
+                               <i class="bi bi-check-circle-fill"></i>
+
+                           </div>
+
+                           <div class="distribution-content">
+
+                               <span class="distribution-label">
+
+                                   Stayed Customers
+
+                               </span>
+
+                               <strong>
+
+                                   {{ stay }}
+
+                               </strong>
+
+                               <small>
+
+                                   {{ stay_rate }}% of customers
+
+                               </small>
+
+                           </div>
+
+                       </div>
+
+                       <!-- CHURNED -->
+
+                       <div class="distribution-box churned">
+
+                           <div class="distribution-icon">
+
+                               <i class="bi bi-x-circle-fill"></i>
+
+                           </div>
+
+                           <div class="distribution-content">
+
+                               <span class="distribution-label">
+
+                                   Churned Customers
+
+                               </span>
+
+                               <strong>
+
+                                   {{ churn }}
+
+                               </strong>
+
+                               <small>
+
+                                   {{ churn_rate }}% of customers
+
+                               </small>
+
+                           </div>
+
+                       </div>
+                       <!-- CHURN RATE -->
+
+                       <div class="distribution-box rate">
+
+                           <div class="distribution-icon">
+
+                               <i class="bi bi-percent"></i>
+
+                           </div>
+
+                           <div class="distribution-content">
+
+                               <span class="distribution-label">
+
+                                   Overall Churn Rate
+
+                               </span>
+
+                               <strong>
+
+                                   {{ churn_rate }}%
+
+                               </strong>
+
+                               <small>
+
+                                   Dataset churn rate
+
+                               </small>
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+                   <!-- PROGRESS BAR -->
+
+                   <div class="distribution-progress">
+
+                       <div class="progress-labels">
+
+                           <span>
+
+                               <i class="bi bi-circle-fill stayed-dot"></i>
+
+                               Stayed {{ stay_rate }}%
+
+                           </span>
+
+                           <span>
+
+                               Churned {{ churn_rate }}%
+
+                               <i class="bi bi-circle-fill churn-dot"></i>
+
+                           </span>
+
+                       </div>
+
+                       <div class="distribution-bar">
+
+                           <div
+
+                               class="distribution-stayed"
+
+                               style="width: {{ stay_rate }}%;">
+
+                           </div>
+
+                           <div
+
+                               class="distribution-churned"
+
+                               style="width: {{ churn_rate }}%;">
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+               </div>
+
+           </div>
+
+               <!-- =================================================
+
+               BUSINESS RISK
+
+           ================================================== -->
+           <div class="sub-card business-risk-card mt-4">
+
+               <div class="sub-title">
+
+                   <div class="sub-title-left">
+
+                       <span class="sub-title-icon risk-icon">
+
+                           <i class="bi bi-shield-exclamation"></i>
+
+                       </span>
+
+                       <div>
+
+                           <h3>Business Risk Overview</h3>
+
+                           <p>Customer retention and revenue risk indicators</p>
+
+                       </div>
+
+                   </div>
+
+               </div>
+
+               <div class="row g-3">
+                   <!-- CHURNED CUSTOMERS -->
+                   <div class="col-xl-3 col-md-6">
+
+                       <div class="risk-stat risk-danger">
+
+                           <div class="risk-stat-icon">
+
+                               <i class="bi bi-exclamation-triangle-fill"></i>
+
+                           </div>
+
+                           <div class="risk-stat-content">
+
+                               <strong>
+
+                                   {{ high_risk }}
+
+                               </strong>
+
+                               <span>
+
+                                   Churned Customers
+
+                               </span>
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+                   <!-- CHURN RATE -->
+
+                   <div class="col-xl-3 col-md-6">
+
+                       <div class="risk-stat risk-blue">
+
+                           <div class="risk-stat-icon">
+
+                               <i class="bi bi-percent"></i>
+
+                           </div>
+
+                           <div class="risk-stat-content">
+
+                               <strong>
+                                    {{ churn_rate }}%
+                                </strong>
+
+                                <span>
+                                    Dataset Churn Rate
+                                </span>
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+                   <!-- REVENUE AT RISK -->
+
+                   <div class="col-xl-3 col-md-6">
+
+                       <div class="risk-stat risk-green">
+
+                           <div class="risk-stat-icon">
+
+                               <i class="bi bi-cash-stack"></i>
+
+                           </div>
+
+                           <div class="risk-stat-content">
+
+                               <strong>
+
+                                   {{ revenue_at_risk }}
+
+                               </strong>
+
+                               <span>
+
+                                   Monthly Charges at Risk
+
+                               </span>
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+                   <!-- RETENTION OPPORTUNITIES -->
+
+                   <div class="col-xl-3 col-md-6">
+
+                       <div class="risk-stat risk-orange">
+
+                           <div class="risk-stat-icon">
+
+                               <i class="bi bi-people-fill"></i>
+
+                           </div>
+
+                           <div class="risk-stat-content">
+
+                               <strong>
+
+                                   {{ retention_opportunities }}
+
+                               </strong>
+
+                               <span>
+                                    High-Risk Customers
+                                </span>
+
+                           </div>
+
+                       </div>
+
+                   </div>
+
+               </div>
+
+           </div>
+
+           <!-- =================================================
+
+                MODEL SUMMARY
+
+           ================================================== -->
+
+       </section>
+
+       <!-- =====================================================
+
+            MAIN PREDICTION AREA
+
+       ====================================================== -->
+
+       <div class="row g-4 mt-1">
+
+           <!-- =================================================
+
+                CUSTOMER FORM
+
+           ================================================== -->
+
+           <div class="col-xl-8">
+
+               <section class="dashboard-card">
+
+                   <div class="section-title">
+
+                       <i class="bi bi-person-lines-fill"></i>
+
+                       <span>
+
+                           Customer Information
+
+                       </span>
+
+                   </div>
+
+                   <div class="form-description">
+
+                       Enter the customer's information below to
+
+                       estimate their probability of churn.
+
+                   </div>
+
+                   <form
+
+                       action="{{ url_for('predict') }}"
+
+                       method="POST"
+
+                       onsubmit="return loading();">
+
+                       <!-- =====================================
+
+                            BASIC INFORMATION
+
+                       ====================================== -->
+
+                       <div class="form-section-title">
+
+                           <i class="bi bi-person"></i>
+
+                           Basic Information
+
+                       </div>
+
+                       <div class="row g-3">
+
+                           <!-- Gender -->
+
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="gender"
+
+                                   class="form-label">
+
+                                   Gender
+
+                               </label>
+
+                               <select
+
+                                   id="gender"
+
+                                   name="gender"
+
+                                   class="form-select">
+                                   <option value="Male">
+
+                                       Male
+
+                                   </option>
+
+                                   <option value="Female">
+
+                                       Female
+
+                                   </option>
+
+                               </select>
+
+                           </div>
+
+                           <!-- Senior Citizen -->
+
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="SeniorCitizen"
+
+                                   class="form-label">
+
+                                   Senior Citizen
+
+                               </label>
+
+                               <select
+
+                                   id="SeniorCitizen"
+
+                                   name="SeniorCitizen"
+
+                                   class="form-select">
+
+                                   <option value="0">
+
+                                       No
+
+                                   </option>
+
+                                   <option value="1">
+
+                                       Yes
+
+                                   </option>
+
+                               </select>
+
+                           </div>
+
+                           <!-- Partner -->
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="Partner"
+
+                                   class="form-label">
+
+                                   Partner
+
+                               </label>
+
+                               <select
+
+                                   id="Partner"
+
+                                   name="Partner"
+
+                                   class="form-select">
+
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+
+                               </select>
+
+                           </div>
+
+                           <!-- Dependents -->
+
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="Dependents"
+
+                                   class="form-label">
+
+                                   Dependents
+
+                               </label>
+
+                               <select
+
+                                   id="Dependents"
+
+                                   name="Dependents"
+
+                                   class="form-select">
+
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+
+                               </select>
+
+                           </div>
+                       </div>
+                       <!-- =====================================
+
+                            TENURE
+
+                       ====================================== -->
+                       <div class="form-section-title mt-4">
+                           <i class="bi bi-calendar-check"></i>
+                           Customer Tenure
+                       </div>
+                       <label
+
+                           for="tenure"
+
+                           class="form-label">
+                           Tenure (Months)
+                           <span class="impact-badge">
+
+                               High Impact
+
+                           </span>
+                       </label>
+                       <input
+
+                           type="number"
+
+                           id="tenure"
+
+                           name="tenure"
+
+                           class="form-control"
+
+                           min="0"
+
+                           max="72"
+
+                           placeholder="Enter tenure: 0 - 72 months"
+
+                           required>
+                       <!-- =====================================
+
+                            PHONE SERVICES
+
+                       ====================================== -->
+                       <div class="form-section-title mt-4">
+                           <i class="bi bi-telephone"></i>
+                           Phone Services
+                       </div>
+
+                       <div class="row g-3">
+                           <div class="col-md-6">
+                               <label
+
+                                   for="PhoneService"
+
+                                   class="form-label">
+                                   Phone Service
+
+                               </label>
+
+                               <select
+
+                                   id="PhoneService"
+
+                                   name="PhoneService"
+
+                                   class="form-select">
+
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+
+                               </select>
+                           </div>
+
+                           <div class="col-md-6">
+                               <label
+
+                                   for="MultipleLines"
+
+                                   class="form-label">
+
+                                   Multiple Lines
+                               </label>
+                               <select
+
+                                   id="MultipleLines"
+
+                                   name="MultipleLines"
+
+                                   class="form-select">
+
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+                                   <option value="No phone service">
+
+                                       No phone service
+
+                                   </option>
+                               </select>
+                           </div>
+                       </div>
+
+                       <!-- =====================================
+
+                            INTERNET SERVICES
+
+                       ====================================== -->
+                       <div class="form-section-title mt-4">
+                           <i class="bi bi-wifi"></i>
+                           Internet Services
+                       </div>
+                       <label
+
+                           for="InternetService"
+
+                           class="form-label">
+                           Internet Service
+                           <span class="impact-badge">
+
+                               High Impact
+
+                           </span>
+                       </label>
+                       <select
+
+                           id="InternetService"
+
+                           name="InternetService"
+
+                           class="form-select">
+                           <option value="DSL">
+
+                               DSL
+
+                           </option>
+
+                           <option value="Fiber optic">
+
+                               Fiber optic
+
+                           </option>
+                           <option value="No">
+
+                               No
+
+                           </option>
+                       </select>
+
+                       <div class="row g-3 mt-1">
+                           <!-- Online Security -->
+                           <div class="col-md-6">
+                               <label
+
+                                   for="OnlineSecurity"
+
+                                   class="form-label">
+                                   Online Security
+                               </label>
+                               <select
+
+                                   id="OnlineSecurity"
+
+                                   name="OnlineSecurity"
+
+                                   class="form-select">
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+                                   <option value="No internet service">
+
+                                       No internet service
+
+                                   </option>
+                               </select>
+                           </div>
+                           <!-- Online Backup -->
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="OnlineBackup"
+
+                                   class="form-label">
+
+                                   Online Backup
+                               </label>
+                               <select
+
+                                   id="OnlineBackup"
+
+                                   name="OnlineBackup"
+
+                                   class="form-select">
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+
+                                   <option value="No internet service">
+
+                                       No internet service
+
+                                   </option>
+
+                               </select>
+
+                           </div>
+
+                           <!-- Device Protection -->
+
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="DeviceProtection"
+
+                                   class="form-label">
+
+                                   Device Protection
+
+                               </label>
+
+                               <select
+
+                                   id="DeviceProtection"
+
+                                   name="DeviceProtection"
+
+                                   class="form-select">
+
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+
+                                   <option value="No internet service">
+
+                                       No internet service
+
+                                   </option>
+
+                               </select>
+
+                           </div>
+
+                           <!-- Tech Support -->
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="TechSupport"
+
+                                   class="form-label">
+
+                                   Tech Support
+
+                               </label>
+
+                               <select
+
+                                   id="TechSupport"
+
+                                   name="TechSupport"
+
+                                   class="form-select">
+
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+
+                                   <option value="No internet service">
+
+                                       No internet service
+
+                                   </option>
+
+                               </select>
+
+                           </div>
+                           <!-- Streaming TV -->
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="StreamingTV"
+
+                                   class="form-label">
+
+                                   Streaming TV
+
+                               </label>
+
+                               <select
+
+                                   id="StreamingTV"
+
+                                   name="StreamingTV"
+
+                                   class="form-select">
+
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+
+                                   <option value="No internet service">
+
+                                       No internet service
+
+                                   </option>
+
+                               </select>
+
+                           </div>
+                           <!-- Streaming Movies -->
+
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="StreamingMovies"
+
+                                   class="form-label">
+
+                                   Streaming Movies
+
+                               </label>
+
+                               <select
+
+                                   id="StreamingMovies"
+
+                                   name="StreamingMovies"
+
+                                   class="form-select">
+
+                                   <option value="Yes">
+
+                                       Yes
+
+                                   </option>
+
+                                   <option value="No">
+
+                                       No
+
+                                   </option>
+
+                                   <option value="No internet service">
+
+                                       No internet service
+
+                                   </option>
+
+                               </select>
+
+                           </div>
+
+                       </div>
+
+                       <!-- =====================================
+
+                            CONTRACT & BILLING
+
+                       ====================================== -->
+                       <div class="form-section-title mt-4">
+
+                           <i class="bi bi-receipt"></i>
+
+                           Contract & Billing
+
+                       </div>
+
+                       <!-- Contract -->
+
+                       <label
+
+                           for="contractSelect"
+
+                           class="form-label">
+                           Contract
+                           <span class="impact-badge">
+
+                               High Impact
+
+                           </span>
+
+                       </label>
+                       <select
+
+                           id="contractSelect"
+
+                           name="Contract"
+
+                           class="form-select"
+
+                           required>
+                           <option value="" selected disabled>
+
+                               Select Contract
+
+                           </option>
+                           <option value="Month-to-month">
+
+                               Month-to-month
+
+                           </option>
+
+                           <option value="One year">
+
+                               One year
+
+                           </option>
+
+                           <option value="Two year">
+
+                               Two year
+
+                           </option>
+                       </select>
+
+                       <!-- Paperless Billing -->
+
+                       <label
+
+                           for="PaperlessBilling"
+
+                           class="form-label mt-3">
+
+                           Paperless Billing
+
+                       </label>
+                       <select
+
+                           id="PaperlessBilling"
+
+                           name="PaperlessBilling"
+
+                           class="form-select">
+                           <option value="Yes">
+
+                               Yes
+
+                           </option>
+
+                           <option value="No">
+
+                               No
+
+                           </option>
+
+                       </select>
+                       <!-- Payment Method -->
+
+                       <label
+
+                           for="PaymentMethod"
+
+                           class="form-label mt-3">
+
+                           Payment Method
+
+                       </label>
+                       <select
+
+                           id="PaymentMethod"
+
+                           name="PaymentMethod"
+
+                           class="form-select">
+                           <option value="Electronic check">
+
+                               Electronic check
+
+                           </option>
+
+                           <option value="Mailed check">
+
+                               Mailed check
+
+                           </option>
+
+                           <option value="Bank transfer (automatic)">
+
+                               Bank transfer (automatic)
+
+                           </option>
+                           <option value="Credit card (automatic)">
+
+                               Credit card (automatic)
+
+                           </option>
+                       </select>
+                       <!-- Charges -->
+                       <div class="row g-3 mt-1">
+
+                           <div class="col-md-6">
+                               <label
+
+                                   for="MonthlyCharges"
+
+                                   class="form-label">
+
+                                   Monthly Charges
+                                   <span class="impact-badge">
+
+                                       High Impact
+
+                                   </span>
+
+                               </label>
+
+                               <input
+
+                                   type="number"
+
+                                   id="MonthlyCharges"
+
+                                   name="MonthlyCharges"
+
+                                   class="form-control"
+
+                                   min="0"
+
+                                   max="200"
+
+                                   step="0.01"
+
+                                   placeholder="Example: 65.50"
+
+                                   required>
+
+                           </div>
+
+                           <div class="col-md-6">
+
+                               <label
+
+                                   for="TotalCharges"
+
+                                   class="form-label">
+
+                                   Total Charges
+
+                               </label>
+
+                               <input
+
+                                   type="number"
+
+                                   id="TotalCharges"
+
+                                   name="TotalCharges"
+
+                                   class="form-control"
+
+                                   min="0"
+
+                                   step="0.01"
+
+                                   placeholder="Example: 3500.00"
+
+                                   required>
+
+                           </div>
+
+                       </div>
+                       <!-- =====================================
+
+                            PREDICT BUTTON
+
+                       ====================================== -->
+                       <button
+
+                           id="predictBtn"
+
+                           type="submit"
+
+                           class="predict-button mt-4">
+
+                           <i class="bi bi-cpu-fill"></i>
+
+                           Predict Customer Churn
+
+                       </button>
+                   </form>
+
+               </section>
+
+           </div>
+
+           <!-- =================================================
+
+                RIGHT COLUMN
+
+           ================================================== -->
+           <div class="col-xl-4">
+
+               <!-- =============================================
+
+                    PREDICTION RESULT
+
+               ============================================== -->
+               <section class="dashboard-card prediction-card">
+                   <div class="section-title">
+                       <i class="bi bi-cpu-fill"></i>
+                       <span>
+
+                           Prediction Result
+
+                       </span>
+                   </div>
+                   {% if prediction %}
+                       <!-- RESULT -->
+                       <div class="prediction-status
+
+                           {% if color == 'green' %}
+
+                               prediction-stay
+
+                           {% else %}
+
+                               prediction-churn
+
+                           {% endif %}">
+
+                           {% if color == 'green' %}
+
+                               <i class="bi bi-check-circle-fill"></i>
+
+                           {% else %}
+
+                               <i class="bi bi-x-circle-fill"></i>
+
+                           {% endif %}
+                           <h3>
+
+                               {{ prediction }}
+
+                           </h3>
+
+                       </div>
+
+                       <!-- =====================================
+
+                            PROBABILITY
+
+                       ====================================== -->
+
+                       <div class="result-section">
+
+                           <h5>
+
+                               <i class="bi bi-pie-chart-fill"></i>
+
+                               Probability Analysis
+
+                           </h5>
+
+                           <!-- Stay -->
+                           <div class="probability-row">
+
+                               <div class="probability-header">
+
+                                   <span>Stay Probability</span>
+
+                                   <strong class="text-success">
+
+                                       {{ stay_probability }}%
+
+                                   </strong>
+
+                               </div>
+
+                               <div class="progress probability-progress">
+
+                                   <div
+
+                                       class="progress-bar bg-success"
+
+                                       style="width: {{ stay_probability }}%;">
+
+                                   </div>
+
+                               </div>
+
+                           </div>
+
+                           <!-- Churn -->
+
+                           <div class="probability-row mt-3">
+
+                               <div class="probability-header">
+
+                                   <span>
+
+                                       Churn Probability
+
+                                   </span>
+
+                                   <strong class="text-danger">
+
+                                       {{ churn_probability }}%
+
+                                   </strong>
+
+                               </div>
+                               <div class="progress probability-progress">
+
+                                   <div
+
+                                       class="progress-bar bg-danger"
+
+                                       role="progressbar"
+
+                                       style="width: {{ churn_probability }}%;"
+
+                                       aria-valuenow="{{ churn_probability }}"
+
+                                       aria-valuemin="0"
+
+                                       aria-valuemax="100">
+
+                                   </div>
+
+                               </div>
+
+                           </div>
+
+                       </div>
+
+                       <!-- =====================================
+
+                            RISK + CONFIDENCE
+
+                       ====================================== -->
+
+                       <div class="row g-3 mt-2">
+                           <div class="col-6">
+                               <div class="result-box">
+                                   <span class="result-box-label">
+
+                                       Risk Level
+
+                                   </span>
+                                   <span class="badge bg-{{ badge }} risk-badge">
+
+                                       {{ risk }}
+
+                                   </span>
+                               </div>
+                           </div>
+                           <div class="col-6">
+                               <div class="result-box">
+                                   <span class="result-box-label">
+
+                                       Confidence
+
+                                   </span>
+                                   <strong>
+
+                                       {{ confidence }}%
+
+                                   </strong>
+
+                                   <small>
+
+                                       {{ confidence_level }}
+
+                                   </small>
+                               </div>
+                           </div>
+                       </div>
+                       <!-- =====================================
+
+                            PREDICTION TIME
+
+                       ====================================== -->
+                       <div class="prediction-time mt-3">
+                           <i class="bi bi-lightning-charge-fill"></i>
+                           Prediction Time:
+                           <strong>
+
+                               {{ prediction_time }}
+
+                           </strong>
+                       </div>
+                       <!-- =====================================
+
+                            AI RECOMMENDATIONS
+
+                       ====================================== -->
+                       <div class="result-section">
+                           <h5>
+                               <i class="bi bi-lightbulb-fill text-warning"></i>
+                               AI Recommendations
+                           </h5>
+                           <div class="recommendation-list">
+                               {% for item in recommendation %}
+                               <div class="recommendation-item">
+                                   <i class="bi bi-check2-circle"></i>
+                                   <span>
+
+                                       {{ item }}
+
+                                   </span>
+                               </div>
+                               {% endfor %}
+                           </div>
+                       </div>
+                       <!-- =====================================
+
+                            EXPLANATION
+
+                       ====================================== -->
+
+                       <div class="result-section">
+
+                           <h5>
+
+                               <i class="bi bi-search"></i>
+
+                               Why This Prediction?
+
+                           </h5>
+                           <div class="factor-box positive">
+
+                               <h6>
+                                   <i class="bi bi-check-circle-fill"></i>
+
+                                   Positive Factors
+
+                               </h6>
+                               <ul>
+                                   {% for item in positive_factors %}
+                                   <li>
+
+                                       {{ item }}
+
+                                   </li>
+                                   {% endfor %}
+                               </ul>
+                           </div>
+                           <div class="factor-box negative mt-3">
+                               <h6>
+                                   <i class="bi bi-exclamation-circle-fill"></i>
+                                   Risk Factors
+                               </h6>
+                               <ul>
+                                   {% for item in risk_factors %}
+                                   <li>
+
+                                       {{ item }}
+
+                                   </li>
+                                   {% endfor %}
+                               </ul>
+                           </div>
+                       </div>
+                   {% else %}
+                       <!-- =====================================
+
+                            EMPTY STATE
+
+                       ====================================== -->
+                       <div class="empty-prediction">
+                           <div class="empty-icon">
+                               <i class="bi bi-robot"></i>
+                           </div>
+                           <h4>
+
+                               AI Prediction Ready
+
+                           </h4>
+                           <p>
+                               Enter customer details and click
+
+                               <strong>Predict Customer Churn</strong>
+
+                               to generate an AI-powered prediction.
+                           </p>
+                           <div class="empty-features">
+                               <span>
+
+                                   <i class="bi bi-check-circle"></i>
+
+                                   Churn Probability
+
+                               </span>
+                               <span>
+
+                                   <i class="bi bi-check-circle"></i>
+
+                                   Risk Level
+
+                               </span>
+                               <span>
+
+                                   <i class="bi bi-check-circle"></i>
+
+                                   AI Recommendations
+
+                               </span>
+
+                           </div>
+                       </div>
+                   {% endif %}
+               </section>
+               <!-- =============================================
+
+                    MODEL PERFORMANCE
+
+               ============================================== -->
+               <section class="dashboard-card mt-4">
+                   <div class="section-title">
+                       <i class="bi bi-award-fill"></i>
+                       <span>
+
+                           Model Performance
+
+                       </span>
+                   </div>
+                   <div class="performance-grid">
+                       <div class="performance-item">
+                           <i class="bi bi-check-circle-fill text-success"></i>
+                           <strong>
+
+                               {{ accuracy }}%
+
+                           </strong>
+                           <span>
+
+                               Accuracy
+
+                           </span>
+                       </div>
+                       <div class="performance-item">
+                           <i class="bi bi-bullseye text-primary"></i>
+                           <strong>
+
+                               {{ precision }}%
+
+                           </strong>
+                           <span>
+
+                               Precision
+
+                           </span>
+
+                       </div>
+                       <div class="performance-item">
+
+                           <i class="bi bi-arrow-repeat text-warning"></i>
+
+                           <strong>
+
+                               {{ recall }}%
+
+                           </strong>
+
+                           <span>
+
+                               Recall
+
+                           </span>
+
+                       </div>
+
+                       <div class="performance-item">
+
+                           <i class="bi bi-award-fill text-danger"></i>
+
+                           <strong>
+
+                               {{ f1 }}%
+
+                           </strong>
+
+                           <span>
+
+                               F1 Score
+
+                           </span>
+
+                       </div>
+
+                       <div class="performance-item">
+
+                           <i class="bi bi-graph-up-arrow text-info"></i>
+
+                           <strong>
+
+                               {{ roc }}%
+
+                           </strong>
+
+                           <span>
+
+                               ROC-AUC
+
+                           </span>
+
+                       </div>
+
+                   </div>
+               </section>
+               <!-- =============================================
+
+                    ROC / CONFUSION MATRIX
+
+               ============================================== -->
+               <section class="dashboard-card mt-4">
+
+                   <div class="section-title">
+
+                       <i class="bi bi-bar-chart-line"></i>
+                       <span>
+
+                           Model Evaluation
+
+                       </span>
+                   </div>
+                   <div class="evaluation-grid">
+                       <div class="chart-card">
+                           <h6>
+
+                               ROC Curve
+
+                           </h6>
+                           <img
+
+                               src="{{ url_for('static', filename='images/roc_curve.png') }}"
+
+                               class="img-fluid"
+
+                               alt="ROC Curve">
+
+                       </div>
+
+                       <div class="chart-card">
+
+                           <h6>
+
+                               Confusion Matrix
+
+                           </h6>
+
+                           <img
+
+                               src="{{ url_for('static', filename='images/confusion_matrix.png') }}"
+
+                               class="img-fluid"
+
+                               alt="Confusion Matrix">
+
+                       </div>
+
+                   </div>
+
+               </section>
+               <!-- =============================================
+
+                    TOP FEATURES
+
+               ============================================== -->
+
+               <section class="dashboard-card mt-4">
+
+                   <div class="section-title">
+
+                       <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+
+                       <span>
+
+                           Top Predictive Features
+
+                       </span>
+
+                   </div>
+                   <div class="feature-list">
+                       {% for item in top_features %}
+                       <div class="feature-item">
+                           <i class="bi bi-check2"></i>
+                           <span>
+
+                               {{ item }}
+
+                           </span>
+                       </div>
+                       {% endfor %}
+                   </div>
+                   <a
+
+                       href="{{ url_for('feature_importance') }}"
+
+                       class="feature-button mt-3">
+
+                       <i class="bi bi-bar-chart-line"></i>
+
+                       View Full Feature Importance
+
+                   </a>
+
+               </section>
+
+           </div>
+       </div>
+       <!-- =====================================================
+
+            RECENT PREDICTIONS
+
+       ====================================================== -->
+       <section class="dashboard-card mt-4">
+           <div class="section-title">
+               <i class="bi bi-clock-history"></i>
+               <span>
+
+                   Recent Predictions
+
+               </span>
+           </div>
+           {% if history %}
+           <div class="table-responsive">
+               <table class="table table-hover prediction-table">
+                   <thead>
+                       <tr>
+                           <th>
+
+                               ID
+
+                           </th>
+
+                           <th>
+
+                               Timestamp
+
+                           </th>
+
+                           <th>
+
+                               Prediction
+
+                           </th>
+
+                           <th>
+
+                               Probability
+
+                           </th>
+
+                           <th>
+
+                               Confidence
+
+                           </th>
+
+                           <th>
+
+                               Risk
+
+                           </th>
+
+                       </tr>
+
+                   </thead>
+                   <tbody>
+                       {% for row in history %}
+                       <tr>
+
+                           <td>
+
+                               <strong>
+
+                                   #{{ row.ID }}
+
+                               </strong>
+
+                           </td>
+                           <td>
+
+                               {{ row.Timestamp }}
+
+                           </td>
+                           <td>
+
+                               {% if "Churn" in row.Prediction %}
+
+                               <span class="history-badge churn-history">
+
+                                   <i class="bi bi-x-circle-fill"></i>
+
+                                   {{ row.Prediction }}
+
+                               </span>
+
+                               {% else %}
+
+                               <span class="history-badge stay-history">
+
+                                   <i class="bi bi-check-circle-fill"></i>
+
+                                   {{ row.Prediction }}
+
+                               </span>
+
+                               {% endif %}
+
+                           </td>
+                           <td>
+                               <strong>
+
+                                   {{ row.Probability }}%
+
+                               </strong>
+                           </td>
+                           <td>
+
+                               {{ row.Confidence }}
+
+                           </td>
+                           <td>
+                               <span class="history-risk">
+
+                                   {{ row.Risk }}
+
+                               </span>
+
+                           </td>
+
+                       </tr>
+
+                       {% endfor %}
+                   </tbody>
+               </table>
+           </div>
+           {% else %}
+           <div class="empty-history">
+               <i class="bi bi-clock-history"></i>
+               <p>
+
+                   No prediction history available yet.
+
+               </p>
+
+           </div>
+
+           {% endif %}
+
+           <div class="history-footer">
+               <a
+
+                   href="{{ url_for('download_history') }}"
+
+                   class="download-button">
+
+                   <i class="bi bi-download"></i>
+
+                   Download Prediction History
+
+               </a>
+
+           </div>
+
+       </section>
+
+   </div>
+   <!-- =========================================================
+
+        FOOTER
+
+   ========================================================== -->
+   <footer class="dashboard-footer">
+       <div class="footer-title">
+           <i class="bi bi-graph-up-arrow"></i>
+           Customer Churn Prediction
+       </div>
+       <div class="footer-subtitle">
+           AI-Powered Customer Retention & Risk Analytics
+       </div>
+       <div class="footer-tech">
+           <span>
+               <i class="bi bi-code-slash"></i>
+               Flask
+           </span>
+           <span>
+               <i class="bi bi-cpu"></i>
+               Scikit-Learn
+           </span>
+           <span>
+               <i class="bi bi-bootstrap"></i>
+               Bootstrap 5
+           </span>
+           <span>
+               <i class="bi bi-bar-chart"></i>
+               Machine Learning
+           </span>
+           <span>
+               <i class="bi bi-stars"></i>
+               SHAP
+           </span>
+       </div>
+       <div class="footer-divider"></div>
+       <div class="footer-credit">
+           Developed by
+
+           <strong>Sneha Mahish</strong>
+       </div>
+       <div class="footer-copy">
+           © 2026 Customer Churn Prediction Dashboard
+       </div>
+
+   </footer>
+   <!-- =========================================================
+
+        JAVASCRIPT
+
+   ========================================================== -->
+   <script>
+   /* =========================================
+
+      LOADING STATE
+
+   ========================================= */
+   function loading() {
+       const button =
+
+           document.getElementById("predictBtn");
+       if (!button) {
+
+           return true;
+
+       }
+       button.disabled = true;
+       button.innerHTML = `
+
+           <span
+
+               class="spinner-border spinner-border-sm me-2"
+
+               role="status"
+
+               aria-hidden="true">
+
+           </span>
+
+           Analyzing Customer...
+
+       `;
+
+       return true;
+
+   }
+
+   /* =========================================
+
+      FORM VALIDATION
+
+   ========================================= */
+   document.addEventListener(
+
+       "DOMContentLoaded",
+
+       function () {
+           const form =
+
+               document.querySelector(
+
+                   "form[action*='predict']"
+
+               );
+
+           if (!form) {
+
+               return;
+
+           }
+
+           form.addEventListener(
+
+               "submit",
+
+               function (event) {
+
+                   const tenure =
+
+                       parseFloat(
+
+                           document.getElementById(
+
+                               "tenure"
+
+                           ).value
+
+                       );
+
+                   const monthlyCharges =
+
+                       parseFloat(
+
+                           document.getElementById(
+
+                               "MonthlyCharges"
+
+                           ).value
+
+                       );
+
+                   const totalCharges =
+
+                       parseFloat(
+
+                           document.getElementById(
+
+                               "TotalCharges"
+
+                           ).value
+
+                       );
+
+                   if (
+
+                       isNaN(tenure)
+
+                       ||
+
+                       tenure < 0
+
+                       ||
+
+                       tenure > 72
+
+                   ) {
+
+                       event.preventDefault();
+
+                       alert(
+
+                           "Tenure must be between 0 and 72 months."
+
+                       );
+
+                       return;
+
+                   }
+                   if (
+
+                       isNaN(monthlyCharges)
+
+                       ||
+
+                       monthlyCharges < 0
+
+                       ||
+
+                       monthlyCharges > 200
+
+                   ) {
+                       event.preventDefault();
+
+                       alert(
+
+                           "Monthly Charges must be between $0 and $200."
+
+                       );
+
+                       return;
+
+                   }
+
+                   if (
+
+                       isNaN(totalCharges)
+
+                       ||
+
+                       totalCharges < 0
+
+                   ) {
+                       event.preventDefault();
+
+                       alert(
+
+                           "Total Charges cannot be negative."
+
+                       );
+
+                       return;
+
+                   }
+               }
+
+           );
+
+
+
+       }
+
+   );
+
+   </script>
+
+   <!-- Bootstrap JS -->
+
+   <script
+
+       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"> 
+   </script> 
+    
+    
+   </body> 
+    
+   </html>
