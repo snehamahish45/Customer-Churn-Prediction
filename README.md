@@ -1,109 +1,106 @@
-# 📊 Customer Churn Prediction
+# Customer Churn Prediction
 
-An end-to-end **Customer Churn Prediction** machine learning project that predicts whether a telecom customer is likely to churn based on customer demographics, services, contract information, payment method, tenure, and billing details.
+<p align="center">
+  <b>End-to-End Machine Learning Application for Predicting Customer Churn</b>
+</p>
 
-The project includes **machine learning model development, preprocessing, model evaluation, explainability with SHAP, and a Flask web application** for interactive predictions.
-
----
-
-## 🚀 Project Overview
-
-Customer churn is an important business problem for subscription-based companies. Identifying customers who are at higher risk of leaving allows businesses to take proactive retention actions.
-
-This project uses customer information to:
-
-* Predict whether a customer is likely to churn
-* Estimate the probability of churn
-* Display customer risk factors
-* Highlight positive and negative factors influencing the prediction
-* Provide an interactive web interface
-* Visualize model performance and feature importance
-* Use SHAP for model explainability
+<p align="center">
+  <a href="https://github.com/snehamahish45/Customer-Churn-Prediction">
+    <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github" alt="GitHub">
+  </a>
+  <img src="https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python" alt="Python">
+  <img src="https://img.shields.io/badge/Flask-Web%20App-black?style=for-the-badge&logo=flask" alt="Flask">
+  <img src="https://img.shields.io/badge/Scikit--learn-Machine%20Learning-orange?style=for-the-badge&logo=scikit-learn" alt="Scikit-learn">
+  <img src="https://img.shields.io/badge/SHAP-Explainable%20AI-purple?style=for-the-badge" alt="SHAP">
+</p>
 
 ---
 
-## ✨ Features
+## Overview
 
-### 🤖 Machine Learning
+**Customer Churn Prediction** is an end-to-end machine learning project designed to identify customers who are at risk of leaving a subscription-based service.
 
-* Customer churn classification
-* Data preprocessing and feature transformation
-* Saved trained model
-* Saved preprocessing pipeline
+The project combines:
+
+* Data preprocessing
+* Machine learning classification
 * Model evaluation
 * Feature importance analysis
-* ROC curve analysis
-* Confusion matrix
 * SHAP-based explainability
+* Flask web application
+* Production deployment with Gunicorn
 
-### 🌐 Flask Web Application
-
-The Flask application provides an interactive interface where users can enter customer information and receive a churn prediction.
-
-The application considers information such as:
-
-* Gender
-* Senior citizen status
-* Partner
-* Dependents
-* Tenure
-* Phone service
-* Multiple lines
-* Internet service
-* Online security
-* Online backup
-* Device protection
-* Tech support
-* Streaming TV
-* Streaming movies
-* Contract type
-* Paperless billing
-* Payment method
-* Monthly charges
-* Total charges
-
-The application also provides customer-specific risk and positive factors based on the submitted information.
+The final application allows users to enter customer information through a web interface and receive a churn prediction along with interpretable insights.
 
 ---
 
-## 🧠 Machine Learning Workflow
+## Key Features
+
+### Machine Learning
+
+* Customer churn classification
+* Automated preprocessing pipeline
+* Trained production model
+* Model evaluation and comparison
+* Confusion matrix
+* ROC curve
+* Feature importance analysis
+* SHAP explainability
+
+### Web Application
+
+* Interactive customer input form
+* Real-time churn prediction
+* Churn probability
+* Customer risk assessment
+* Positive and negative prediction factors
+* Responsive web interface
+
+### Deployment
+
+* Flask production application
+* Gunicorn WSGI server
+* Python runtime configuration
+* Deployment-ready model artifacts
+* Compatible with cloud platforms such as Render
+
+---
+
+## Application Workflow
 
 ```text
-Customer Dataset
-       │
-       ▼
-Data Cleaning
-       │
-       ▼
-Feature Preparation
-       │
-       ▼
-Preprocessing
-       │
-       ▼
-Model Training
-       │
-       ▼
-Model Evaluation
-       │
-       ├── Confusion Matrix
-       ├── ROC Curve
-       ├── Feature Importance
-       └── SHAP Analysis
-       │
-       ▼
-Saved Model + Preprocessor
-       │
-       ▼
-Flask Web Application
-       │
-       ▼
-Customer Churn Prediction
+                    Customer Information
+                            │
+                            ▼
+                  ┌─────────────────────┐
+                  │   Flask Web Form     │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │    Preprocessor     │
+                  └──────────┬──────────┘
+                             │
+                             ▼
+                  ┌─────────────────────┐
+                  │   Trained Model     │
+                  └──────────┬──────────┘
+                             │
+                  ┌──────────┴──────────┐
+                  ▼                     ▼
+          Churn Prediction       Churn Probability
+                  │                     │
+                  └──────────┬──────────┘
+                             ▼
+                  ┌─────────────────────┐
+                  │ Explainable Insights│
+                  │      / SHAP         │
+                  └─────────────────────┘
 ```
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 Customer-Churn-Prediction/
@@ -131,37 +128,166 @@ Customer-Churn-Prediction/
 │
 ├── static/
 │
-└── templates/
+├── templates/
+│
+└── catboost_info/
 ```
 
-### Important model files
+### Production Model Artifacts
 
-`models/best_model.pkl` contains the trained prediction model.
+The application uses two important serialized artifacts:
 
-`models/preprocessor.pkl` contains the preprocessing pipeline required to transform user input before prediction.
+| File                      | Purpose                        |
+| ------------------------- | ------------------------------ |
+| `models/best_model.pkl`   | Trained machine learning model |
+| `models/preprocessor.pkl` | Feature preprocessing pipeline |
 
-Both files are required when running the Flask application.
-
----
-
-## 🛠️ Technologies Used
-
-* **Python**
-* **Flask**
-* **Gunicorn**
-* **Pandas**
-* **NumPy**
-* **Scikit-learn**
-* **Joblib**
-* **Matplotlib**
-* **SHAP**
-* **HTML / CSS**
-* **Git & GitHub**
-* **Render**
+Both artifacts must be available for the Flask application to perform predictions.
 
 ---
 
-## 📦 Installation
+## Technology Stack
+
+| Category             | Technology      |
+| -------------------- | --------------- |
+| Programming Language | Python          |
+| Web Framework        | Flask           |
+| Production Server    | Gunicorn        |
+| Data Processing      | Pandas, NumPy   |
+| Machine Learning     | Scikit-learn    |
+| Model Persistence    | Joblib / Pickle |
+| Visualization        | Matplotlib      |
+| Explainable AI       | SHAP            |
+| Frontend             | HTML, CSS       |
+| Version Control      | Git, GitHub     |
+| Deployment           | Render          |
+
+---
+
+## Machine Learning Pipeline
+
+The project follows a standard supervised machine learning workflow:
+
+```text
+Data
+  │
+  ▼
+Data Cleaning
+  │
+  ▼
+Exploratory Data Analysis
+  │
+  ▼
+Feature Engineering
+  │
+  ▼
+Preprocessing
+  │
+  ▼
+Model Training
+  │
+  ▼
+Model Evaluation
+  │
+  ├── Confusion Matrix
+  ├── ROC Curve
+  ├── Feature Importance
+  └── SHAP Analysis
+  │
+  ▼
+Best Model
+  │
+  ▼
+Model Serialization
+  │
+  ▼
+Flask Application
+```
+
+---
+
+## Model Evaluation
+
+The repository includes model evaluation artifacts under the `models/` directory.
+
+### Confusion Matrix
+
+`models/confusion_matrix.png`
+
+Provides a visual breakdown of correct and incorrect classifications.
+
+### ROC Curve
+
+`models/roc_curve.png`
+
+Shows the model's classification performance across different decision thresholds.
+
+### Feature Importance
+
+`models/feature_importance.csv`
+
+Contains feature-importance information generated from the trained model.
+
+### Model Comparison
+
+`models/model_results.csv`
+
+Contains model evaluation results used to compare candidate models.
+
+### SHAP Summary
+
+`models/shap_summary.png`
+
+Provides an explainability view of the features influencing model predictions.
+
+---
+
+## Explainable AI
+
+A key component of this project is **model interpretability**.
+
+SHAP is used to understand how individual features contribute to model predictions.
+
+Instead of providing only:
+
+```text
+Prediction: Customer likely to churn
+```
+
+the application can provide additional context around the factors contributing to the prediction.
+
+This makes the model more useful for analysis and customer-retention decision support.
+
+> **Note:** Model explanations describe learned relationships in the training data. They should not automatically be interpreted as causal relationships.
+
+---
+
+## Customer Information
+
+The prediction interface uses customer attributes such as:
+
+* Gender
+* Senior citizen status
+* Partner
+* Dependents
+* Tenure
+* Phone service
+* Multiple lines
+* Internet service
+* Online security
+* Online backup
+* Device protection
+* Tech support
+* Streaming services
+* Contract type
+* Paperless billing
+* Payment method
+* Monthly charges
+* Total charges
+
+---
+
+## Local Setup
 
 ### 1. Clone the repository
 
@@ -176,11 +302,6 @@ cd Customer-Churn-Prediction
 
 ```bash
 python -m venv .venv
-```
-
-Activate it:
-
-```bash
 .venv\Scripts\activate
 ```
 
@@ -191,131 +312,27 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
----
-
 ### 3. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## ▶️ Run the Application Locally
-
-Start the Flask application with:
+### 4. Run the application
 
 ```bash
 python app.py
 ```
 
-Or run it with Gunicorn:
+The Flask application will start locally.
 
-```bash
-gunicorn app:app
-```
-
-For Windows development, Flask can also be started using:
-
-```bash
-flask run
-```
-
-Then open the local address displayed by Flask in your browser.
+Open the local URL displayed in the terminal to access the application.
 
 ---
 
-## 🔮 Making a Prediction
+## Production Deployment
 
-1. Open the web application.
-2. Enter the customer's information.
-3. Submit the form.
-4. The application processes the input using the saved preprocessor.
-5. The trained model generates a churn prediction.
-6. The application displays the prediction and relevant customer factors.
-
-The application is designed to make the prediction process easy to understand rather than returning only a raw machine-learning output.
-
----
-
-## 📈 Model Evaluation
-
-The project includes several model evaluation outputs in the `models/` directory:
-
-### Confusion Matrix
-
-```text
-models/confusion_matrix.png
-```
-
-Used to evaluate correct and incorrect classification results.
-
-### ROC Curve
-
-```text
-models/roc_curve.png
-```
-
-Used to visualize the model's classification performance across different thresholds.
-
-### Feature Importance
-
-```text
-models/feature_importance.csv
-```
-
-Contains feature-importance information from the trained model.
-
-### Model Results
-
-```text
-models/model_results.csv
-```
-
-Contains model evaluation results.
-
-### SHAP Summary
-
-```text
-models/shap_summary.png
-```
-
-Provides an explainability view of how features contribute to model predictions.
-
----
-
-## 🔍 Explainable AI
-
-This project uses **SHAP (SHapley Additive exPlanations)** to make machine-learning predictions easier to interpret.
-
-Instead of simply saying:
-
-> Customer is likely to churn.
-
-the application can provide additional context around the customer's characteristics and identify factors associated with higher or lower churn risk.
-
-Examples of risk factors considered by the application include:
-
-* Short customer tenure
-* Month-to-month contracts
-* Higher monthly charges
-* Electronic check payments
-* Fiber-optic internet service
-
-Examples of positive factors include:
-
-* Longer tenure
-* One-year or two-year contracts
-* Automatic payment methods
-* Higher predicted stay probability
-
-These factors are intended as model/application insights and should not be interpreted as guaranteed causes of churn.
-
----
-
-## 🌐 Deployment
-
-The application can be deployed as a Flask web service on **Render**.
+The application is configured for deployment using Gunicorn.
 
 ### Build Command
 
@@ -329,98 +346,82 @@ pip install -r requirements.txt
 gunicorn app:app
 ```
 
-The repository includes:
+The repository also includes `runtime.txt` to define the Python runtime used by the deployment environment.
+
+---
+
+## Configuration
+
+The application expects the following model files:
 
 ```text
-runtime.txt
+models/best_model.pkl
+models/preprocessor.pkl
 ```
 
-to specify the Python runtime used for deployment.
+If either file is missing, the application cannot initialize the prediction pipeline.
 
 ---
 
-## ⚙️ Dependencies
+## Results & Insights
 
-The application currently uses the following main packages:
+The project provides a complete prediction and interpretation workflow rather than treating machine learning as a black box.
 
-```text
-Flask
-Gunicorn
-Pandas
-NumPy
-Scikit-learn
-Joblib
-Matplotlib
-SHAP
-```
+The generated artifacts allow analysis of:
 
-Exact versions are maintained in:
-
-```text
-requirements.txt
-```
+* Classification performance
+* False positives and false negatives
+* Discriminative performance through ROC analysis
+* Relative feature importance
+* Individual feature contributions through SHAP
 
 ---
 
-## 🧪 Development
+## Future Improvements
 
-For development or experimentation, the project includes:
-
-* `notebooks/` for exploratory/model-development work
-* `src/` for project source code
-* `models/` for trained models and evaluation outputs
-* `templates/` for Flask HTML templates
-* `static/` for frontend assets
-
----
-
-## ⚠️ Important Notes
-
-* The saved model and preprocessing files must remain available at:
-
-  ```text
-  models/best_model.pkl
-  models/preprocessor.pkl
-  ```
-* The model should be used together with the preprocessing pipeline that was used during training.
-* Predictions are model estimates and should not be treated as guaranteed outcomes.
-* If the model is retrained, the corresponding preprocessing pipeline should also be updated.
-
----
-
-## 🚀 Future Improvements
-
-Possible future enhancements include:
+Potential improvements include:
 
 * Hyperparameter optimization
-* Model comparison and automated model selection
-* Improved probability calibration
-* Customer retention recommendations
+* Cross-validation and automated model selection
+* Probability calibration
+* Customer segmentation
+* Batch prediction support
+* REST API endpoints
 * Interactive analytics dashboard
-* Batch prediction for multiple customers
 * Model monitoring
-* Automated retraining pipeline
-* API endpoint for programmatic predictions
-* Improved mobile-friendly UI
+* Automated retraining
+* CI/CD pipeline
+* Improved accessibility and mobile responsiveness
 
 ---
 
-## 👩‍💻 Author
+## Disclaimer
 
-**Sneha Mahish**
+This project is intended for educational, analytical, and demonstration purposes.
 
-GitHub: `snehamahish45`
-
----
-
-## 📄 License
-
-This project is licensed under the terms specified in the repository's `LICENSE` file.
+Predictions generated by the model are estimates based on patterns learned from the training data and should not be treated as guaranteed outcomes.
 
 ---
 
-## ⭐ Project
+## Author
 
-If you find this project useful, consider giving the repository a star on GitHub.
+### Sneha Mahish
 
-**Customer Churn Prediction — Machine Learning + Flask + Explainable AI**
+GitHub:
+https://github.com/snehamahish45
+
+---
+
+## License
+
+This project is available under the license specified in the repository's `LICENSE` file.
+
+---
+
+## Repository
+
+**Customer Churn Prediction**
+
+https://github.com/snehamahish45/Customer-Churn-Prediction
+
+If you find this project useful, consider giving the repository a ⭐.
