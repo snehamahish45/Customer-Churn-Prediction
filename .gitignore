@@ -64,8 +64,11 @@ desktop.ini
 # Model / ML Temporary Files
 # ==============================
 *.joblib
-*.pkl
 *.pickle
+
+# Deployment model files
+!models/best_model.pkl
+!models/preprocessor.pkl
 
 # ==============================
 # Dataset
