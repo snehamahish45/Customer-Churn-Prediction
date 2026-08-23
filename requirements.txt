@@ -1,8 +1,8 @@
-Flask
-gunicorn
-pandas
-numpy
-scikit-learn
-joblib
-matplotlib
-shap
+Flask==3.1.0
+gunicorn==23.0.0
+pandas==2.2.3
+numpy==1.26.4
+scikit-learn==1.5.2
+joblib==1.4.2
+matplotlib==3.9.2
+shap==0.46.0
